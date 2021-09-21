@@ -113,7 +113,7 @@ class KeyboardSkin(control: KeyboardLayout) : SkinBase<KeyboardLayout>(control) 
                 currentX += key.prefWidth
             }
             if (row.keys.isNotEmpty()) {
-                currentY += row.keys.map { it.prefHeight(-1.0) }.min() ?: 0.0
+                currentY += row.keys.map { it.prefHeight(-1.0) }.minOrNull() ?: 0.0
             }
         }
     }
@@ -125,7 +125,7 @@ class KeyboardSkin(control: KeyboardLayout) : SkinBase<KeyboardLayout>(control) 
         bottomInset: Double,
         leftInset: Double
     ) = keyboard.rows.sumByDouble { row ->
-        if (row.keys.isEmpty()) 0.0 else row.keys.map { it.prefHeight(width) }.min() ?: 0.0
+        if (row.keys.isEmpty()) 0.0 else row.keys.map { it.prefHeight(width) }.minOrNull() ?: 0.0
     } + topInset + bottomInset
 
     override fun computePrefWidth(

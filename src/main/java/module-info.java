@@ -11,13 +11,13 @@ module tornadofx {
     requires kotlin.stdlib;
     requires kotlin.reflect;
 
-    requires static httpcore;
-    requires static httpclient;
     requires static org.apache.felix.framework;
 
     requires transitive java.json;
     requires transitive java.prefs;
     requires transitive java.logging;
+    requires static org.apache.httpcomponents.httpcore;
+    requires static org.apache.httpcomponents.httpclient;
 
     opens tornadofx to javafx.fxml;
 

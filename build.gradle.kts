@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  * Gradle version 6.6.1
  */
 plugins {
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.5.31"
     `java-library`
     id("org.openjfx.javafxplugin") version "0.0.10"
     id("org.jetbrains.dokka") version "1.4.20"
@@ -47,16 +47,16 @@ dependencies {
 }
 
 javafx {
-    version = "17.0.0.1"
+    version = "16"
     modules = listOf("javafx.controls", "javafx.fxml", "javafx.swing", "javafx.web", "javafx.media")
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "16"
 }
 
 tasks.withType<JavaCompile> {
-    options.release.set(17)
+    options.release.set(16)
 }
 
 java.withSourcesJar()
