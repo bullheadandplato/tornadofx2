@@ -118,16 +118,42 @@ class KeyboardSkin(control: KeyboardLayout) : SkinBase<KeyboardLayout>(control) 
         }
     }
 
-    override fun computePrefHeight(width: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) = keyboard.rows.sumByDouble { row ->
+    override fun computePrefHeight(
+        width: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) = keyboard.rows.sumByDouble { row ->
         if (row.keys.isEmpty()) 0.0 else row.keys.map { it.prefHeight(width) }.min() ?: 0.0
     } + topInset + bottomInset
 
-    override fun computePrefWidth(height: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) = (keyboard.rows.map { row ->
-        if (row.keys.isEmpty()) 0.0 else row.keys.sumByDouble { it.prefWidth(height) }
-    }.max() ?: 0.0) + leftInset + rightInset
+    override fun computePrefWidth(
+        height: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) =
+        (keyboard.rows.map { row ->
+            if (row.keys.isEmpty()) 0.0 else row.keys.sumByDouble { it.prefWidth(height) }
+        }.maxOrNull() ?: 0.0) + leftInset + rightInset
 
-    override fun computeMinWidth(height: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) = computePrefWidth(height, topInset, rightInset, bottomInset, leftInset)
-    override fun computeMinHeight(width: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) = computePrefHeight(width, topInset, rightInset, bottomInset, leftInset)
+    override fun computeMinWidth(
+        height: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) = computePrefWidth(height, topInset, rightInset, bottomInset, leftInset)
+
+    override fun computeMinHeight(
+        width: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) = computePrefHeight(width, topInset, rightInset, bottomInset, leftInset)
 }
 
 class KeyboardRow(val keyboard: KeyboardLayout) {

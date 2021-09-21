@@ -17,7 +17,6 @@ import javafx.scene.control.Label
 import javafx.scene.layout.*
 import javafx.scene.layout.Priority.SOMETIMES
 import javafx.stage.Stage
-import java.util.*
 import java.util.concurrent.Callable
 
 fun EventTarget.form(op: Form.() -> Unit = {}) = opcr(this, Form(), op)
@@ -62,13 +61,13 @@ open class Form : VBox() {
         addClass(Stylesheet.form)
     }
 
-    internal fun labelContainerWidth(height: Double): Double
-            = fieldsets.flatMap { it.fields }.map { it.labelContainer }.map { f -> f.prefWidth(-height) }.max() ?: 0.0
+    internal fun labelContainerWidth(height: Double): Double =
+        fieldsets.flatMap { it.fields }.map { it.labelContainer }.map { f -> f.prefWidth(-height) }.maxOrNull() ?: 0.0
 
     internal val fieldsets = HashSet<Fieldset>()
 
     override fun getUserAgentStylesheet(): String =
-            Form::class.java.getResource("form.css").toExternalForm()
+        Form::class.java.getResource("form.css").toExternalForm()
 }
 
 @DefaultProperty("children")

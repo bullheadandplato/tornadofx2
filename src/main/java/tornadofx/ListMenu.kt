@@ -18,7 +18,6 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Region
 import javafx.scene.text.Text
-import tornadofx.WizardStyles.Companion.graphic
 
 @DefaultProperty("children")
 class ListMenu : Control() {
@@ -132,15 +131,33 @@ class ListMenuSkin(control: ListMenu) : SkinBase<ListMenu>(control) {
 
     private fun acc(fn: (Node) -> Double) = children.sumByDouble { fn(it) }
 
-    private fun biggest(fn: (Node) -> Double) = children.map { fn(it) }.max() ?: 0.0
+    private fun biggest(fn: (Node) -> Double) = children.map { fn(it) }.maxOrNull() ?: 0.0
 
-    override fun computeMinWidth(height: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) =
-            if (skinnable.orientation == VERTICAL) biggest { it.minWidth(height) } else acc { it.minWidth(height) }
+    override fun computeMinWidth(
+        height: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) =
+        if (skinnable.orientation == VERTICAL) biggest { it.minWidth(height) } else acc { it.minWidth(height) }
 
-    override fun computeMinHeight(width: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) =
-            if (skinnable.orientation == VERTICAL) acc { it.minHeight(width) } else biggest { it.minHeight(width) }
+    override fun computeMinHeight(
+        width: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) =
+        if (skinnable.orientation == VERTICAL) acc { it.minHeight(width) } else biggest { it.minHeight(width) }
 
-    override fun computePrefWidth(height: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double): Double {
+    override fun computePrefWidth(
+        height: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ): Double {
         val prefWidth = if (skinnable.orientation == VERTICAL)
             biggest { it.prefWidth(height) } + leftInset + rightInset
         else
@@ -149,7 +166,13 @@ class ListMenuSkin(control: ListMenu) : SkinBase<ListMenu>(control) {
         return Math.max(prefWidth, skinnable.prefWidth)
     }
 
-    override fun computePrefHeight(width: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double): Double {
+    override fun computePrefHeight(
+        width: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ): Double {
         val prefHeight = if (skinnable.orientation == VERTICAL)
             acc { it.prefHeight(width) } + topInset + bottomInset
         else
@@ -158,11 +181,35 @@ class ListMenuSkin(control: ListMenu) : SkinBase<ListMenu>(control) {
         return Math.max(prefHeight, skinnable.prefHeight)
     }
 
-    override fun computeMaxWidth(height: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) =
-            if (skinnable.maxWidth == Region.USE_COMPUTED_SIZE) computePrefWidth(height, topInset, rightInset, bottomInset, leftInset) else skinnable.maxWidth
+    override fun computeMaxWidth(
+        height: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) =
+        if (skinnable.maxWidth == Region.USE_COMPUTED_SIZE) computePrefWidth(
+            height,
+            topInset,
+            rightInset,
+            bottomInset,
+            leftInset
+        ) else skinnable.maxWidth
 
-    override fun computeMaxHeight(width: Double, topInset: Double, rightInset: Double, bottomInset: Double, leftInset: Double) =
-            if (skinnable.maxHeight == Region.USE_COMPUTED_SIZE) computePrefHeight(width, topInset, rightInset, bottomInset, leftInset) else skinnable.maxHeight
+    override fun computeMaxHeight(
+        width: Double,
+        topInset: Double,
+        rightInset: Double,
+        bottomInset: Double,
+        leftInset: Double
+    ) =
+        if (skinnable.maxHeight == Region.USE_COMPUTED_SIZE) computePrefHeight(
+            width,
+            topInset,
+            rightInset,
+            bottomInset,
+            leftInset
+        ) else skinnable.maxHeight
 
     override fun layoutChildren(x: Double, y: Double, w: Double, h: Double) {
         var currentX = x
